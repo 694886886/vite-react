@@ -1,33 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useRef, useState } from 'react'
+
 import './App.css'
+import pinyin from 'pinyin'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const inputRef = useRef()
+  const [data, setData] = useState([])
+  const handlePy = () => {
+    console.log()
+    const py = pinyin(inputRef.current.value, { style: pinyin.STYLE_NORMAL }).map(word => word[0].toUpperCase());
+    console.log(py);
+    setData(py)
+  }
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <input type="text" ref={inputRef}/>
+        <br />
+        <button onClick={handlePy}>英文</button>
+        <br />
+        {data?.length && data.map(item => {
+          return <div>
+            {item}
+          </div>
+        })}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
